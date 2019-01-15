@@ -97,6 +97,22 @@ public class Picture extends SimplePicture
       }
     }
   }
+
+  public void grayScale()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        int changer = (int) ((pixelObj.getGreen()+pixelObj.getBlue()+pixelObj.getRed())/3);
+        pixelObj.setGreen(changer);
+        pixelObj.setBlue(changer);
+        pixelObj.setRed(changer);
+      }
+    }
+  }
   
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture
@@ -116,6 +132,23 @@ public class Picture extends SimplePicture
         rightPixel.setColor(leftPixel.getColor());
       }
     } 
+  }
+
+  public void mirrorHorizontal()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    Pixel topPixel = null;
+    Pixel botPixel = null;
+    int length = pixels.length;
+    for (int row = 0; row < length/2; row++)
+    {
+      for (int col = 0; col < pixels[0].length; col++)
+      {
+        topPixel = pixels[row][col];
+        botPixel = pixels[length - 1 - row][col];
+        botPixel.setColor(topPixel.getColor());
+      }
+    }
   }
   
   /** Mirror just part of a picture of a temple */
@@ -138,6 +171,22 @@ public class Picture extends SimplePicture
         rightPixel = pixels[row]                       
                          [mirrorPoint - col + mirrorPoint];
         rightPixel.setColor(leftPixel.getColor());
+      }
+    }
+  }
+
+  public void mirrorDiagonal()
+  {
+    Pixel[][] pixels = this.getPixels2D();
+    Pixel botPixel = null;
+    Pixel topPixel = null;
+    for (int y = 0; y < pixels.length; y++)
+    {
+      for (int x = 0; x < y; x++)
+      {
+        botPixel = pixels[y][x];
+        topPixel = pixels[x][y];
+        topPixel.setColor(botPixel.getColor());
       }
     }
   }
@@ -216,8 +265,33 @@ public class Picture extends SimplePicture
       }
     }
   }
-  
-  
+
+  public void fixUnderwater()  {
+    Pixel[][] pixels = this.getPixels2D();
+    int total =0;
+    int num = 0;
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        int contrast = (pixelObj.getBlue() + pixelObj.getRed() + pixelObj.getGreen())
+                / 3;
+        total += contrast;
+        num++;
+      }
+    }
+    int contrast = (int) (total /= num);
+    for (Pixel[] rowArray : pixels)
+    {
+      for (Pixel pixelObj : rowArray)
+      {
+        pixelObj.setBlue(5 * (pixelObj.getBlue() - contrast));
+        pixelObj.setRed(4 * (pixelObj.getRed() - contrast));
+        pixelObj.setGreen(3 * (pixelObj.getGreen() - contrast));
+      }
+    }
+  }
+
   /* Main method for testing - each class in Java can have a main 
    * method 
    */
