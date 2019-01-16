@@ -190,6 +190,44 @@ public class Picture extends SimplePicture
       }
     }
   }
+
+  public void mirrorArms()
+  {
+    int mirrorPoint = 205;
+    Pixel leftPixel = null;
+    Pixel rightPixel = null;
+    int count = 0;
+    Pixel[][] pixels = this.getPixels2D();
+
+    // loop through the rows
+    for (int row = 150; row < 200; row++)
+    {
+      // loop from 13 to just before the mirror point
+      for (int col = 105; col < mirrorPoint; col++)
+      {
+
+        leftPixel = pixels[row][col];
+        rightPixel = pixels[row]
+                [mirrorPoint - col + mirrorPoint];
+        rightPixel.setColor(leftPixel.getColor());
+        count++;
+      }
+    }
+
+    for (int row = 160; row < 180; row++)
+    {
+      // loop from 13 to just before the mirror point
+      for (int col = 105; col < mirrorPoint; col++)
+      {
+
+        leftPixel = pixels[row][col];
+        rightPixel = pixels[row+100]
+                [mirrorPoint - col + mirrorPoint];
+        rightPixel.setColor(leftPixel.getColor());
+      }
+    }
+    System.out.println(count);
+  }
   
   /** copy from the passed fromPic to the
     * specified startRow and startCol in the
@@ -205,21 +243,21 @@ public class Picture extends SimplePicture
     Pixel toPixel = null;
     Pixel[][] toPixels = this.getPixels2D();
     Pixel[][] fromPixels = fromPic.getPixels2D();
-    for (int fromRow = 0, toRow = startRow; 
+    for (int fromRow = 0, toRow = startRow;
          fromRow < fromPixels.length &&
-         toRow < toPixels.length; 
+         toRow < toPixels.length;
          fromRow++, toRow++)
     {
-      for (int fromCol = 0, toCol = startCol; 
+      for (int fromCol = 0, toCol = startCol;
            fromCol < fromPixels[0].length &&
-           toCol < toPixels[0].length;  
+           toCol < toPixels[0].length;
            fromCol++, toCol++)
       {
         fromPixel = fromPixels[fromRow][fromCol];
         toPixel = toPixels[toRow][toCol];
         toPixel.setColor(fromPixel.getColor());
       }
-    }   
+    }
   }
 
   /** Method to create a collage of several pictures */
@@ -239,7 +277,30 @@ public class Picture extends SimplePicture
     this.write("collage.jpg");
   }
   
-  
+  public void mirrorGull()
+  {
+    int mirrorPoint = 350;
+    Pixel leftPixel = null;
+    Pixel rightPixel = null;
+    int count = 0;
+    Pixel[][] pixels = this.getPixels2D();
+
+    // loop through the rows
+    for (int row = 228; row < 328; row++)
+    {
+      // loop from 13 to just before the mirror point
+      for (int col = 231; col < mirrorPoint; col++)
+      {
+
+        leftPixel = pixels[row][col];
+        rightPixel = pixels[row]
+                [mirrorPoint - col + mirrorPoint];
+        rightPixel.setColor(leftPixel.getColor());
+        count++;
+      }
+    }
+    System.out.println(count);
+  }
   /** Method to show large changes in color 
     * @param edgeDist the distance for finding edges
     */
